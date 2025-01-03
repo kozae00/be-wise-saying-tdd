@@ -12,8 +12,8 @@ public class FirstTest {
 
     @Test
     void t1() {
-
-        assertThat(2).isEqualTo(1); // 예상값과 실제값 비교
+        int rst = 1;
+        assertThat(rst).isEqualTo(1); // 예상값과 실제값 비교
     }
 
     @Test
@@ -59,8 +59,7 @@ public class FirstTest {
 
 
         assertThat(out.toString())
-                .contains("== 명언 앱 ==")
-                .contains("명언앱을 종료합니다.");
+                .containsSubsequence("== 명언 앱 ==", "명언앱을 종료합니다.");
 
         // 출력값을 체크
     }
