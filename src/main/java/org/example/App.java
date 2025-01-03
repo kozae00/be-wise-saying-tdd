@@ -4,9 +4,11 @@ import java.util.Scanner;
 
 public class App {
     private final Scanner sc;
+    private int lastId;
 
     public  App(Scanner sc) {
         this.sc =sc; // TestBot.java에 입력값이 있다. 그렇기 때문에 받아와야한다.
+        lastId = 0;
     }
 
     public void run() {
@@ -23,8 +25,7 @@ public class App {
 
                 System.out.println("명언 : ");
                 System.out.println("작가 : ");
-                System.out.println("1번 명언이 등록되었습니다.");
-                System.out.println("2번 명언이 등록되었습니다.");
+                System.out.println("%d번 명언이 등록되었습니다.".formatted(++lastId));
             }
         }
     }
