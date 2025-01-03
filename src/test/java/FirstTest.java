@@ -31,12 +31,17 @@ public class FirstTest {
 
         // 출력값을 체크
     }
+
     @Test
     @DisplayName("명령을 여러번 입력할 수 있다.")
     void t4() {
         String out = TestBot.run("""
                 등록
+                현재를 사랑하라.
+                작자미상
                 등록
+                현재를 사랑하라.
+                작자미상
                 종료
                 """);
 
@@ -94,12 +99,15 @@ public class FirstTest {
                 등록
                 현재를 사랑하라.
                 작자미상
+                등록
+                현재를 사랑하라.
+                작자미상
                 """);
 
         assertThat(out)
                 .contains("1번 명언이 등록되었습니다.")
-                .contains("2번 명언이 등록되었습니다.");
-
+                .contains("2번 명언이 등록되었습니다.")
+                .contains("3번 명언이 등록되었습니다.");
     }
 
     @Test
@@ -119,6 +127,5 @@ public class FirstTest {
                 .contains("번호 / 작가 / 명언")
                 .contains("----------------------")
                 .containsSubsequence("2 / 작자미상 / 과거에 집착하지 마라.", "1 / 작자미상 / 현재를 사랑하라.");
-
     }
 }
