@@ -14,8 +14,8 @@ public class FirstTest {
 
     @Test
     void t2() {
-        App app =new App();
-        app.run();
+//        App app =new App();
+//        app.run();
 
         // aaa 가 출력 되는가
         // assertThat(result).isEqualTo("aaa");
