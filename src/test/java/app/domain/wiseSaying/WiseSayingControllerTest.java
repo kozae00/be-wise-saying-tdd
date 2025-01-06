@@ -132,7 +132,7 @@ public class WiseSayingControllerTest {
     }
 
     @Test
-    @DisplayName("삭제 - id를 이용해서 해당 id의 명언을 삭제할 수 있다. 입력 : '삭제?id = 1'")
+    @DisplayName("삭제 - id를 이용해서 해당 id의 명언을 삭제할 수 있다. 입력 : '삭제?id=1'")
     void t10() {
         String out = TestBot.run("""
                 등록
