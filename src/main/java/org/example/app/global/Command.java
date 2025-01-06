@@ -47,7 +47,7 @@ public class Command {
         return paramMap.get(key);
     }
 
-    public int gePramAsInt(String key) {
+    public int getParamAsInt(String key) {
         try {
             String pram = paramMap.get(key);
             return Integer.parseInt(pram);
