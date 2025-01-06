@@ -56,7 +56,7 @@ public class CommandTest {
     void t5() {
 
         Command cmd = new Command("삭제?id=1");
-        String strId = cmd.getParam();
+        String strId = cmd.getParam("id");
         int id = Integer.parseInt(strId);
         assertThat(id).isEqualTo(1);
     }
@@ -66,16 +66,29 @@ public class CommandTest {
     void t6() {
 
         Command cmd1 = new Command("목록?expr=1=1");
-        String param1 = cmd1.getParam();
+        String param1 = cmd1.getParam("expr");
 
         Command cmd2 = new Command("목록?page");
-        String param2 = cmd2.getParam();
+        String param2 = cmd2.getParam("page");
 
         Command cmd3 = new Command("삭제?id=aa");
-        String param3 = cmd3.getParam();
+        String param3 = cmd3.getParam("id");
 
         assertThat(param1).isEqualTo("1=1");
         assertThat(param2).isNull();
         assertThat(param3).isEqualTo("aa");
+    }
+
+    @Test
+    // '&' 기준으로 입력값들이 들어온다.
+    @DisplayName("파라미터가 여러개 있을 때, 파라미터 가져오기. 입력값 - 목록?key1=val1&key2=val2")
+    void t7() {
+
+        Command cmd = new Command("목록?key1=val1&key2=val2");
+        String param1 = cmd.getParam("key1");
+        String param2 = cmd.getParam("key2");
+
+        assertThat(param1).isEqualTo("val1");
+        assertThat(param2).isEqualTo("val2");
     }
 }
