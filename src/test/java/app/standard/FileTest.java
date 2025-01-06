@@ -32,25 +32,26 @@ public class FileTest {
     @Test
     @DisplayName("파일 내용 읽어 오기")
     void t3() {
-        String testContent = "Hello, world";
+        String testContent = "Hello, World!";
 
         String file = "test.txt";
         String content = Util.File.readAsString(file);
 
-        assertThat(Files.exists(Paths.get(file)))
-                .isTrue();
+        assertThat(content)
+                .isEqualTo(testContent);
     }
 
-//    @Test
-//    @DisplayName("파일 생성. 내용이 없는 빈 파일 생성")
-//    void t3() {
-//        String file = "test.txt";
-//
-//        Util.File.wirte(file, "Hello, World!");
-//
-//        String content = Files.readString(Paths.get(file));
-//
-//        assertThat(Files.exists(Paths.get(file)))
-//                .isTrue();
-//    }
+    @Test
+    @DisplayName("파일 생성. 내용이 없는 빈 파일 생성")
+    void t4() {
+        String file = "test2.txt";
+        String wirteContent = "modify content";
+
+        Util.File.wirte(file, wirteContent);
+
+        String content = Util.File.readAsString(file);
+
+        assertThat(content)
+                .isEqualTo(wirteContent);
+    }
 }
