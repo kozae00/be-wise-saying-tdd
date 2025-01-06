@@ -56,8 +56,7 @@ public class CommandTest {
     void t5() {
 
         Command cmd = new Command("삭제?id=1");
-        String strId = cmd.getParam("id");
-        int id = Integer.parseInt(strId);
+        int id = cmd.gePramAsInt("id");
         assertThat(id).isEqualTo(1);
     }
 

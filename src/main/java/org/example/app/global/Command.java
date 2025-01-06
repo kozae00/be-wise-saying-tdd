@@ -46,4 +46,13 @@ public class Command {
     public String getParam(String key) {
         return paramMap.get(key);
     }
+
+    public int gePramAsInt(String key) {
+        try {
+            String pram = paramMap.get(key);
+            return Integer.parseInt(pram);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
 }
