@@ -1,10 +1,15 @@
 package org.example.app.global;
 
 public class Command {
-    
-    // 쪼개기 작업
 
-    // 회원
+    String actionName;
 
-    // 로그인?id=aa
+    public Command(String cmd) {
+        String[] cmdBits = cmd.split("\\?");
+        actionName = cmdBits[0];
+    }
+
+    public String getActionName() {
+        return actionName;
+    }
 }
