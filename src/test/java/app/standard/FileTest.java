@@ -32,9 +32,10 @@ public class FileTest {
     @Test
     @DisplayName("파일 내용 읽어 오기")
     void t3() {
+        String file = "test.txt";
         String testContent = "Hello, World!";
 
-        String file = "test.txt";
+        Util.File.wirte("test.txt", testContent);
         String content = Util.File.readAsString(file);
 
         assertThat(content)
@@ -44,7 +45,7 @@ public class FileTest {
     @Test
     @DisplayName("파일 생성. 내용이 없는 빈 파일 생성")
     void t4() {
-        String file = "test2.txt";
+        String file = "test.txt";
         String wirteContent = "modify content";
 
         Util.File.wirte(file, wirteContent);
@@ -58,7 +59,7 @@ public class FileTest {
     @Test
     @DisplayName("파일 삭제.")
     void t5() {
-        String file = "test3.txt";
+        String file = "test.txt";
 
         // test3.txt 파일 생성
         Util.File.createFile(file);

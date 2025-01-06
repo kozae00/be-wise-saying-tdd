@@ -14,14 +14,7 @@ public class Util {
         }
 
         public static void createFile(String pathValue) {
-            Path filePath = Paths.get(pathValue);
-
-            try {
-                Files.createFile(filePath);
-            } catch (Exception e) {
-                System.out.println("파일 생성 중 실패");
-                e.printStackTrace();
-            }
+            wirte(pathValue, "");
         }
 
         public static String readAsString(String file) {
