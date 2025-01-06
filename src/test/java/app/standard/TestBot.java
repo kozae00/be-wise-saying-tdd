@@ -1,4 +1,6 @@
-import org.example.App;
+package app.standard;
+
+import org.example.app.App;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

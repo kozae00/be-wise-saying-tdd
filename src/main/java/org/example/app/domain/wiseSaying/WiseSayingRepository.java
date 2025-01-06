@@ -1,4 +1,4 @@
-package org.example.domain.wiseSaying;
+package org.example.app.domain.wiseSaying;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,11 +1,8 @@
-package org.example;
+package org.example.app;
 
-import org.example.domain.wiseSaying.SystemController;
-import org.example.domain.wiseSaying.WiseSaying;
-import org.example.domain.wiseSaying.WiseSayingController;
+import org.example.app.domain.wiseSaying.SystemController;
+import org.example.app.domain.wiseSaying.WiseSayingController;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class App {

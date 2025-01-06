@@ -1,10 +1,11 @@
-import org.example.App;
+package app.domain.wiseSaying;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FirstTest {
+public class WiseSayingControllerTest {
 
 
     @Test

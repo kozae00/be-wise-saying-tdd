@@ -1,4 +1,4 @@
-package org.example.domain.wiseSaying;
+package org.example.app.domain.wiseSaying;
 
 import java.util.List;
 import java.util.Scanner;
