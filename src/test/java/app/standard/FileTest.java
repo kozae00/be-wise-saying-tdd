@@ -1,8 +1,7 @@
 package app.standard;
 
 import org.example.app.standard.Util;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,7 +12,20 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class FileTest {
     // 테스트 시작전에 test.txt를 저장할 디렉토리 생성
+    // 테스트 전처리
+    @BeforeAll
+    static void beforeAll() {
+        System.out.println("테스트 실행 전에 한번 실행");
+        Util.File.createDir("test");
+    }
+
     // 테스트 종료후에 test.txt를 디렉토리 삭제
+    // 테스트 후처리
+    @AfterAll
+    static void afterAll() {
+        System.out.println("테스트 실행 전에 한번 실행");
+        Util.File.delete("test");
+    }
 
     @Test
     @DisplayName("최초의 파일 테스트")
@@ -90,5 +102,16 @@ public class FileTest {
 
         assertThat(Files.isDirectory(Path.of(dirPath)))
                 .isTrue();
+    }
+
+    @Test
+    @DisplayName("디렉토리 삭제.")
+    void t7() {
+        String dirPath = "test";
+
+        Util.File.delete(dirPath);
+
+        assertThat(Files.exists(Paths.get(dirPath)))
+                .isFalse();
     }
 }
