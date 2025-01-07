@@ -1,1 +1,0 @@
-# be-wise-saying-tdd
