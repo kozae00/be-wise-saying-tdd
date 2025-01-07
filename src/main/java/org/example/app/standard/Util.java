@@ -3,6 +3,8 @@ package org.example.app.standard;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -126,6 +128,48 @@ public class Util {
         public static void writeAsMap(String filePath, Map<String, Object> wiseSayingMap) {
             String jsonStr = mapToJson(wiseSayingMap);
             File.write(filePath, jsonStr);
+        }
+
+        public static Map<String, Object> readAsMap(String filePath) {
+            String jsonStr = File.readAsString(filePath);
+            return null;
+        }
+
+        public static Map<String, Object> jsonToMap(String jsonStr) {
+//            String jsonStr = """
+//                    "id" : 1,
+//                    "content" : "aaa",
+//                    "author" : "bbb"
+//                """;
+            Map<String, Object> resultMap = new HashMap<>();
+
+            jsonStr = jsonStr.replaceAll("\\{", "")
+                    .replaceAll("}", "")
+                    .replaceAll("\n", "")
+                    .replaceAll(" : ", ":");
+
+            Arrays.stream(jsonStr.split(",")) // ["id" : 1, "content" : "aaa", "author" : "bbb"]
+                    .map(p -> p.trim().split(":")) // p => ["id" : 1]
+                    .forEach(p -> { // p => ["id", 1]
+                        String key = p[0].replaceAll("\"", "");
+                        String value = p[1];
+
+                        if(value.startsWith("\"")){
+                            //문자열인 경우
+                            resultMap.put(key, value.replaceAll("\"",""));
+                        } else if(value.contains(".")) {
+                            // 실수인 경우
+                            resultMap.put(key, Double.parseDouble(value));
+                        } else if(value.equals("true") || value.equals("false")) {
+                            // 논리값인 경우
+                            resultMap.put(key, Boolean.parseBoolean(value));
+                        } else {
+                            // 숫자인 경우
+                            resultMap.put(key, Integer.parseInt(value));
+                        }
+                    });
+
+            return resultMap;
         }
     }
 }
