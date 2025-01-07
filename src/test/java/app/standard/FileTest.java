@@ -24,7 +24,7 @@ public class FileTest {
     @AfterAll
     static void afterAll() {
         System.out.println("테스트 실행 전에 한번 실행");
-        Util.File.delete("test");
+        Util.File.deleteForce("test");
     }
 
     @Test
@@ -51,7 +51,7 @@ public class FileTest {
         String file = "test/test.txt";
         String testContent = "Hello, World!";
 
-        Util.File.wirte("test/test.txt", testContent);
+        Util.File.write("test/test.txt", testContent);
         String content = Util.File.readAsString(file);
 
         assertThat(content)
@@ -64,7 +64,7 @@ public class FileTest {
         String file = "test/test.txt";
         String wirteContent = "modify content";
 
-        Util.File.wirte(file, wirteContent);
+        Util.File.write(file, wirteContent);
 
         String content = Util.File.readAsString(file);
 
@@ -112,6 +112,30 @@ public class FileTest {
         Util.File.delete(dirPath);
 
         assertThat(Files.exists(Paths.get(dirPath)))
+                .isFalse();
+    }
+
+    @Test
+    @DisplayName("파일 생성 -> 없는 디렉토리에에 생성 시도하면 디렉토리를 생성한 후에 파일 생성")
+    void t8() {
+        String path = "test/test2/test.txt";
+
+        Util.File.createFile(path);
+
+        boolean rst = Files.exists(Paths.get(path));
+        assertThat(rst)
+                .isTrue();
+    }
+
+    @Test
+    @DisplayName("파일 삭제 -> 폴더가 비어있지 않을 때 안의 내용까지 같이 삭제")
+    void t9() {
+        String path = "test/test2/test.txt";
+
+        Util.File.deleteForce(path);
+
+        boolean rst = Files.exists(Paths.get(path));
+        assertThat(rst)
                 .isFalse();
     }
 }
