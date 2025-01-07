@@ -5,6 +5,7 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -134,6 +135,10 @@ public class Util {
 
         public static Map<String, Object> readAsMap(String filePath) {
             String jsonStr = File.readAsString(filePath);
+
+            if(jsonStr.isEmpty()) {
+                return new LinkedHashMap<>();
+            }
             return jsonToMap(jsonStr);
         }
 

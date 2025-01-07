@@ -3,12 +3,11 @@ package org.example.app.domain.wiseSaying.repository;
 import org.example.app.domain.wiseSaying.WiseSaying;
 import org.example.app.standard.Util;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class WiseSayingFileRepository implements WiseSayingRepository {
 
+    private static final String DB_PATH = "db/test/wiseSaying/";
     private final List<WiseSaying> wiseSayingList;
     private int lastId;
 
@@ -20,7 +19,7 @@ public class WiseSayingFileRepository implements WiseSayingRepository {
     public WiseSaying save(WiseSaying wiseSaying) {
 
         // 파일 만들기
-        Util.Json.writeAsMap("db/wiseSaying/%d.json".formatted(wiseSaying.getId()), wiseSaying.toMap());
+        Util.Json.writeAsMap(getFilePath(wiseSaying.getId()), wiseSaying.toMap());
         return wiseSaying;
     }
 
@@ -34,9 +33,15 @@ public class WiseSayingFileRepository implements WiseSayingRepository {
     }
 
     public Optional<WiseSaying> findById(int id) {
+        String path = getFilePath(id);
+        Map<String, Object> map = Util.Json.readAsMap(path);
+        if(map.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(WiseSaying.fromMap(map));
+    }
 
-        return wiseSayingList.stream()
-                .filter(w -> w.getId() == id)
-                .findFirst();
+    private String getFilePath(int id) {
+        return DB_PATH + id + ".json";
     }
 }
