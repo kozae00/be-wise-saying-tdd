@@ -1,16 +1,19 @@
-package org.example.app.domain.wiseSaying;
+package org.example.app.domain.wiseSaying.repository;
+
+import org.example.app.domain.wiseSaying.WiseSaying;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class WiseSayingRepository {
+public class WiseSayingFileRepository implements WiseSayingRepository {
 
     private final List<WiseSaying> wiseSayingList;
     private int lastId;
 
-    public WiseSayingRepository() {
+    public WiseSayingFileRepository() {
         wiseSayingList = new ArrayList<>();
+        System.out.println("파일 DB 사용");
     }
 
     public WiseSaying save(WiseSaying wiseSaying) {
