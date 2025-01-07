@@ -42,4 +42,7 @@ bin/
 .DS_Store
 
 ### test ###
-test/*.json
+test
+
+### db ###
+db/wiseSaying/

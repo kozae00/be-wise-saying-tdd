@@ -36,4 +36,16 @@ public class WiseSayingFileRepositoryTest {
 
         assertThat(wiseSaying).isEqualTo(restoreWiseSaying);
     }
+
+    @Test
+    @DisplayName("명언 삭제")
+    void t2() {
+        WiseSaying wiseSaying = new WiseSaying(1,"aaa", "bbb");
+        wiseSayingRepository.save(wiseSaying);
+        String filePath = "db/wiseSaying/1.json";
+        boolean delRst = wiseSayingRepository.deleteById(1);
+        boolean rst = Files.exists(Path.of(filePath));
+        assertThat(rst).isFalse();
+        assertThat(delRst).isTrue();
+    }
 }
