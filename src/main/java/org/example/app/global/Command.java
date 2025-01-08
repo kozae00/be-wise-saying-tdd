@@ -47,12 +47,12 @@ public class Command {
         return paramMap.get(key);
     }
 
-    public int getParamAsInt(String key) {
+    public int getParamAsInt(String key, int defaultValue) {
         try {
             String pram = paramMap.get(key);
             return Integer.parseInt(pram);
         } catch (NumberFormatException e) {
-            return 0;
+            return defaultValue;
         }
     }
 
