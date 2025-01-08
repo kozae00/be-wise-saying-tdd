@@ -9,7 +9,7 @@ import java.util.*;
 
 public class WiseSayingFileRepository implements WiseSayingRepository {
 
-    private static final String DB_PATH = AppConfig.getDbPath();
+    private static final String DB_PATH = AppConfig.getDbPath() + "/WiseSaying";
     private static final String ID_FILE_PATH = DB_PATH + "/lastId.txt";
     public WiseSayingFileRepository() {
         System.out.println("파일 DB 사용");
