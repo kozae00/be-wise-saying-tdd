@@ -59,4 +59,8 @@ public class WiseSayingService {
     public void makeSampleData(int cnt) {
         wiseSayingRepository.makeSampleData(cnt);
     }
+
+    public int count() {
+        return wiseSayingRepository.count();
+    }
 }
