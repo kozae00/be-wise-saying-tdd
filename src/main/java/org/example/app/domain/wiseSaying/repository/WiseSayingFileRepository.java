@@ -9,12 +9,16 @@ import java.util.*;
 
 public class WiseSayingFileRepository implements WiseSayingRepository {
 
-    private static final String DB_PATH = AppConfig.getDbPath() + "/WiseSaying";
+    private static final String DB_PATH = AppConfig.getDbPath() + "/wiseSaying";
     private static final String ID_FILE_PATH = DB_PATH + "/lastId.txt";
+    private static final String BUILD_PATH = DB_PATH + "/build/data.json";
+
     public WiseSayingFileRepository() {
         System.out.println("파일 DB 사용");
         init();
     }
+
+
 
     public void init() {
         if(!Util.File.exists(ID_FILE_PATH)) {
@@ -108,4 +112,17 @@ public class WiseSayingFileRepository implements WiseSayingRepository {
         Util.File.write(ID_FILE_PATH, id);
     }
 
+    public void build() {
+        List<Map<String, Object>> mapList = findAll().stream()
+                .map(WiseSaying::toMap)
+                .toList();
+
+        String jsonStr = Util.Json.listToJson(mapList);
+
+        Util.File.write(BUILD_PATH,jsonStr);
+    }
+
+    public static String getBuildPath() {
+        return BUILD_PATH;
+    }
 }
