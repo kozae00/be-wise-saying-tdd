@@ -4,10 +4,10 @@ import org.example.app.global.AppConfig;
 
 public class RepostioryProvider {
 
-    public static WiseSayingRepository porvide() {
+    public static WiseSayingRepository provide() {
         if(AppConfig.isFileDb()) {
             return new WiseSayingFileRepository();
-        } else if(AppConfig.isMemDb()) { // File이랑 Mem만 있어어 else로만 사용해도 무관
+        } else { // File이랑 Mem만 있어어 else로만 사용해도 무관
             return new WiseSayingMemRepository();
         }
     }

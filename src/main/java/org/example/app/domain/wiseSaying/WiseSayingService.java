@@ -13,7 +13,7 @@ public class WiseSayingService {
     private final WiseSayingRepository wiseSayingRepository;
 
     public WiseSayingService() {
-        wiseSayingRepository = RepostioryProvider.porvide();
+        wiseSayingRepository = RepostioryProvider.provide();
     }
 
     public WiseSaying write(String content, String author) {
