@@ -1,12 +1,25 @@
 package app.global;
 
 import org.example.app.global.Command;
+import org.example.app.standard.Util;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class CommandTest {
+
+    @BeforeEach
+    void beforeEach() {
+        Util.File.deleteForce("db/test");
+    }
+
+    @AfterEach
+    void afterEach() {
+        Util.File.deleteForce("db/test");
+    }
 
     @Test
     @DisplayName("command Test 최초 테스트")

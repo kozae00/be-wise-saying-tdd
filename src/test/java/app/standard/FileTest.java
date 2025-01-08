@@ -11,19 +11,16 @@ import java.util.List;
 import static java.nio.file.Files.isDirectory;
 import static org.assertj.core.api.Assertions.assertThat;
 public class FileTest {
-    // 테스트 시작전에 test.txt를 저장할 디렉토리 생성
-    // 테스트 전처리
-    @BeforeAll
-    static void beforeAll() {
-        System.out.println("테스트 실행 전에 한번 실행");
+
+    @BeforeEach
+    void beforeEach() {
+        System.out.println("각 테스트 실행 전에 한번 실행");
         Util.File.createDir("test");
     }
 
-    // 테스트 종료후에 test.txt를 디렉토리 삭제
-    // 테스트 후처리
-    @AfterAll
-    static void afterAll() {
-        System.out.println("테스트 실행 전에 한번 실행");
+    @AfterEach
+    void afterEach() {
+        System.out.println("각 테스트 실행 전에 한번 실행");
         Util.File.deleteForce("test");
     }
 

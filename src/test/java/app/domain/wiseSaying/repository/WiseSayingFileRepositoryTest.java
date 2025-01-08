@@ -16,11 +16,17 @@ import java.util.Optional;
 
 public class WiseSayingFileRepositoryTest {
     
-    WiseSayingRepository wiseSayingRepository = new WiseSayingFileRepository();
+    WiseSayingFileRepository wiseSayingRepository = new WiseSayingFileRepository();
 
-    @AfterAll
+    @BeforeEach
     @DisplayName("파일 DB 삭제")
-    static void afterAll() {
+    void beforeEach() {
+        Util.File.deleteForce("db/test");
+    }
+
+    @AfterEach
+    @DisplayName("파일 DB 삭제")
+    void afterEach() {
         Util.File.deleteForce("db/test");
     }
 
@@ -90,6 +96,22 @@ public class WiseSayingFileRepositoryTest {
 
         assertThat(wiseSayings).hasSize(3);
         assertThat(wiseSayings).contains(wiseSaying1, wiseSaying2, wiseSaying3);
+
+    }
+
+    @Test
+    @DisplayName("lastId 가져오기")
+    void t5() {
+
+        WiseSaying wiseSaying1 = new WiseSaying("aaa1", "bbb1");
+        wiseSayingRepository.save(wiseSaying1);
+
+        WiseSaying wiseSaying2 = new WiseSaying("aaa1", "bbb1");
+        wiseSayingRepository.save(wiseSaying2);
+
+        int lastId = wiseSayingRepository.getLastId();
+
+        assertThat(lastId).isEqualTo(wiseSaying2.getId());
 
     }
 }
