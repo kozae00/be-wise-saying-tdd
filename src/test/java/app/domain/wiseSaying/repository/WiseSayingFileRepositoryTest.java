@@ -1,6 +1,7 @@
 package app.domain.wiseSaying.repository;
 
 import app.standard.TestBot;
+import org.example.app.domain.wiseSaying.Page;
 import org.example.app.domain.wiseSaying.WiseSaying;
 import org.example.app.domain.wiseSaying.repository.WiseSayingFileRepository;
 import org.example.app.domain.wiseSaying.repository.WiseSayingRepository;
@@ -104,7 +105,7 @@ public class WiseSayingFileRepositoryTest {
         wiseSayingRepository.save(wiseSaying2);
         wiseSayingRepository.save(wiseSaying3);
 
-        List<WiseSaying> wiseSayings = wiseSayingRepository.findAll();
+        List<WiseSaying> wiseSayings = wiseSayingRepository.findAll().getWiseSayings();
 
         assertThat(wiseSayings).hasSize(3);
         assertThat(wiseSayings).contains(wiseSaying1, wiseSaying2, wiseSaying3);
@@ -174,6 +175,33 @@ public class WiseSayingFileRepositoryTest {
 
         assertThat(count)
                 .isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("페이지 정보와 결과 가져오기")
+    void t8() {
+
+        WiseSaying wiseSaying1 = new WiseSaying("aaa", "bbb");
+        wiseSayingRepository.save(wiseSaying1);
+
+        WiseSaying wiseSaying2 = new WiseSaying("ccc", "ddd");
+        wiseSayingRepository.save(wiseSaying2);
+
+        WiseSaying wiseSaying3 = new WiseSaying("eee", "fff");
+        wiseSayingRepository.save(wiseSaying3);
+
+        Page pageContent = wiseSayingRepository.findAll();
+
+        List<WiseSaying> wiseSayings = pageContent.getWiseSayings();
+        int totalItems = pageContent.getTotalItems();
+        int totalPages = pageContent.getTotalPages();
+
+        assertThat(totalItems)
+                .isEqualTo(3);
+
+        assertThat(totalPages)
+                .isEqualTo(1);
+
     }
 
 }

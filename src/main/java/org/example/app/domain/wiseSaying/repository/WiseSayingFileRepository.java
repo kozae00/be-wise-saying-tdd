@@ -1,5 +1,6 @@
 package org.example.app.domain.wiseSaying.repository;
 
+import org.example.app.domain.wiseSaying.Page;
 import org.example.app.domain.wiseSaying.WiseSaying;
 import org.example.app.global.AppConfig;
 import org.example.app.standard.Util;
@@ -46,32 +47,20 @@ public class WiseSayingFileRepository implements WiseSayingRepository {
         return wiseSaying;
     }
 
-    public List<WiseSaying> findAll() {
+    public Page findAll() {
 
+        int itemsPerPage = 5;
 
-
-//        명령형
-//        List<Path> paths = Util.File.getPaths(DB_PATH);
-//        List<WiseSaying> wiseSayingList = new ArrayList<>();
-//
-//        for(Path path : paths) {
-//            String filePath = path.toString();
-//            Map<String, Object> map = Util.Json.readAsMap(filePath);
-//            WiseSaying wiseSaying = WiseSaying.fromMap(map);
-//            wiseSayingList.add(wiseSaying);
-//        }
-//
-//        return wiseSayingList;
-
-
-        // 선언형
-        return Util.File.getPaths(DB_PATH).stream()
+        List<WiseSaying> wiseSayings = Util.File.getPaths(DB_PATH).stream()
                 .map(Path::toString)
                 .filter(path -> path.endsWith(".json"))
                 .map(Util.Json::readAsMap)
                 .map(WiseSaying::fromMap)
                 .toList();
 
+        int totalPages = (int) Math.ceil((double) wiseSayings.size() / itemsPerPage);
+
+        return new Page(wiseSayings,  totalPages, wiseSayings.size());
     }
 
     public boolean deleteById(int id) {
@@ -113,7 +102,7 @@ public class WiseSayingFileRepository implements WiseSayingRepository {
     }
 
     public void build() {
-        List<Map<String, Object>> mapList = findAll().stream()
+        List<Map<String, Object>> mapList = findAll().getWiseSayings().stream()
                 .map(WiseSaying::toMap)
                 .toList();
 
@@ -135,6 +124,6 @@ public class WiseSayingFileRepository implements WiseSayingRepository {
     }
 
     public int count() {
-        return findAll().size();
+        return findAll().getWiseSayings().size();
     }
 }
