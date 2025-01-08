@@ -3,6 +3,7 @@ package app.domain.wiseSaying.repository;
 import org.example.app.domain.wiseSaying.WiseSaying;
 import org.example.app.domain.wiseSaying.repository.WiseSayingFileRepository;
 import org.example.app.domain.wiseSaying.repository.WiseSayingRepository;
+import org.example.app.global.AppConfig;
 import org.example.app.standard.Util;
 import org.junit.jupiter.api.*;
 
@@ -15,49 +16,58 @@ import java.util.Map;
 import java.util.Optional;
 
 public class WiseSayingFileRepositoryTest {
-    
-    WiseSayingFileRepository wiseSayingRepository = new WiseSayingFileRepository();
+
+    private WiseSayingFileRepository wiseSayingRepository = new WiseSayingFileRepository();
+
+    @BeforeAll
+    static void beforeAll() {
+        AppConfig.setTestMode();
+    }
 
     @BeforeEach
-    @DisplayName("파일 DB 삭제")
     void beforeEach() {
-        Util.File.deleteForce("db/test");
+        Util.File.deleteForce(AppConfig.getDbPath());
     }
 
     @AfterEach
-    @DisplayName("파일 DB 삭제")
     void afterEach() {
-        Util.File.deleteForce("db/test");
+        Util.File.deleteForce(AppConfig.getDbPath());
     }
 
     @Test
     @DisplayName("명언 저장")
     void t1() {
 
-        WiseSaying wiseSaying = new WiseSaying(1, "aaa", "bbb");
+        WiseSaying wiseSaying = new WiseSaying(1,"aaa", "bbb");
+
         wiseSayingRepository.save(wiseSaying);
 
-        String filePath = "db/test/wiseSaying/1.json";
+        String filePath = WiseSayingFileRepository.getFilePath(wiseSaying.getId());
 
         boolean rst = Files.exists(Path.of(filePath));
         assertThat(rst).isTrue();
 
-        Map<String, Object> map = Util.Json.readAsMap(filePath);
-        WiseSaying restoreWiseSaying = WiseSaying.fromMap(map);
+        Map<String, Object> map =  Util.Json.readAsMap(filePath);
+        WiseSaying restoredWiseSaying = WiseSaying.fromMap(map);
 
-        System.out.println(restoreWiseSaying);
         System.out.println(wiseSaying);
+        System.out.println(restoredWiseSaying);
 
-        assertThat(wiseSaying).isEqualTo(restoreWiseSaying);
+        assertThat(wiseSaying).isEqualTo(restoredWiseSaying);
+
     }
 
     @Test
     @DisplayName("명언 삭제")
     void t2() {
+
         WiseSaying wiseSaying = new WiseSaying(1,"aaa", "bbb");
+
         wiseSayingRepository.save(wiseSaying);
-        String filePath = "db/test/wiseSaying/1.json";
+        String filePath = WiseSayingFileRepository.getFilePath(wiseSaying.getId());
+
         boolean delRst = wiseSayingRepository.deleteById(1);
+
         boolean rst = Files.exists(Path.of(filePath));
         assertThat(rst).isFalse();
         assertThat(delRst).isTrue();
@@ -66,18 +76,19 @@ public class WiseSayingFileRepositoryTest {
     @Test
     @DisplayName("아이디로 해당 명언 가져오기")
     void t3() {
+
         WiseSaying wiseSaying = new WiseSaying(1,"aaa", "bbb");
-
         wiseSayingRepository.save(wiseSaying);
-        assertThat(Files.exists(Path.of("db/test/wiseSaying/1.json"))).isTrue();
 
-        String filePath = "db/test/wiseSaying/1.json";
+        String filePath = WiseSayingFileRepository.getFilePath(wiseSaying.getId());
+        assertThat(Files.exists(Path.of(filePath))).isTrue();
 
         Optional<WiseSaying> opWiseSaying = wiseSayingRepository.findById(1);
         WiseSaying foundWiseSaying = opWiseSaying.orElse(null);
 
         assertThat(foundWiseSaying).isNotNull();
         assertThat(foundWiseSaying).isEqualTo(wiseSaying);
+
     }
 
     @Test
@@ -109,9 +120,12 @@ public class WiseSayingFileRepositoryTest {
         WiseSaying wiseSaying2 = new WiseSaying("aaa1", "bbb1");
         wiseSayingRepository.save(wiseSaying2);
 
+
         int lastId = wiseSayingRepository.getLastId();
 
         assertThat(lastId).isEqualTo(wiseSaying2.getId());
 
     }
+
+
 }

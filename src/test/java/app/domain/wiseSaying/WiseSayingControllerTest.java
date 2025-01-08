@@ -1,13 +1,28 @@
 package app.domain.wiseSaying;
 
 import app.standard.TestBot;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.example.app.global.AppConfig;
+import org.example.app.standard.Util;
+import org.junit.jupiter.api.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class WiseSayingControllerTest {
 
+    @BeforeAll
+    static void beforeAll() {
+        AppConfig.setTestMode();
+    }
+
+    @BeforeEach
+    void before() {
+        Util.File.deleteForce(AppConfig.getDbPath());
+    }
+
+    @AfterEach
+    void after() {
+        Util.File.deleteForce(AppConfig.getDbPath());
+    }
 
     @Test
     void t1() {
@@ -17,7 +32,7 @@ public class WiseSayingControllerTest {
 
     @Test
     void t2() {
-//        App app = new App();
+//        app.App app = new app.App();
 //        app.run();
 
         // aaa가 출력되는가?
@@ -132,7 +147,7 @@ public class WiseSayingControllerTest {
     }
 
     @Test
-    @DisplayName("삭제 - id를 이용해서 해당 id의 명언을 삭제할 수 있다. 입력 : '삭제?id=1'")
+    @DisplayName("삭제 - id를 이용해서 해당 id의 명언을 삭제할 수 있다. 입력 : 삭제?id=1")
     void t10() {
         String out = TestBot.run("""
                 등록
@@ -143,15 +158,16 @@ public class WiseSayingControllerTest {
                 작자미상
                 삭제?id=1
                 목록
-                
                 """);
+
 
         assertThat(out)
                 .contains("2 / 작자미상 / 과거에 집착하지 마라.")
                 .doesNotContain("1 / 작자미상 / 현재를 사랑하라.");
     }
+
     @Test
-    @DisplayName("삭제 예외 처리 - 없는 id로 삭제를 시도하면 예외 처리 메시지가 나온다.")
+    @DisplayName("삭제 예외 처리 - 없는 id로 삭제를 시도하면 예외처리 메시지가 나온다.")
     void t11() {
         String out = TestBot.run("""
                 등록
@@ -161,7 +177,6 @@ public class WiseSayingControllerTest {
                 과거에 집착하지 마라.
                 작자미상
                 삭제?id=1
-                목록
                 삭제?id=1
                 """);
 
@@ -170,7 +185,7 @@ public class WiseSayingControllerTest {
     }
 
     @Test
-    @DisplayName("수정 - id를 이용해서 해당 id의 명언을 수정할 수 있다. 이 때 기존의 명언과 작가가 나와야 함. 입력값 - 수정?id=1")
+    @DisplayName("수정 - id를 이용해서 해당 id의 명언을 수정할 수 있다. 이때 기존의 명언과 작가가 나와야 함. 입력값 - 수정?id=1")
     void t12() {
         String out = TestBot.run("""
                 등록
@@ -189,5 +204,7 @@ public class WiseSayingControllerTest {
                 .doesNotContain("1 / 작자미상 / 현재를 사랑하라.")
                 .contains("1 / 새 작가 / 새 명언 내용");
     }
+
+
 
 }

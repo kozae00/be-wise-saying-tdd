@@ -1,6 +1,7 @@
 package org.example.app.domain.wiseSaying.repository;
 
 import org.example.app.domain.wiseSaying.WiseSaying;
+import org.example.app.global.AppConfig;
 import org.example.app.standard.Util;
 
 import java.nio.file.Path;
@@ -8,15 +9,20 @@ import java.util.*;
 
 public class WiseSayingFileRepository implements WiseSayingRepository {
 
-    private static final String DB_PATH = "db/test/wiseSaying/";
+    private static final String DB_PATH = AppConfig.getDbPath();
+    private static final String ID_FILE_PATH = DB_PATH + "/lastId.txt";
     public WiseSayingFileRepository() {
         System.out.println("파일 DB 사용");
-        lastIdInit();
+        init();
     }
 
-    public void lastIdInit() {
-        if(!Util.File.exists(DB_PATH + "lastId.txt")) {
-            Util.File.createFile(DB_PATH + "lastId.txt");
+    public void init() {
+        if(!Util.File.exists(ID_FILE_PATH)) {
+            Util.File.createFile(ID_FILE_PATH);
+        }
+
+        if(!Util.File.exists(DB_PATH)) {
+            Util.File.createFile(DB_PATH);
         }
     }
 
@@ -80,12 +86,12 @@ public class WiseSayingFileRepository implements WiseSayingRepository {
 
     }
 
-    private String getFilePath(int id) {
-        return DB_PATH + id + ".json";
+    public static String getFilePath(int id) {
+        return DB_PATH + "/" + id + ".json";
     }
 
     public int getLastId() {
-        String idStr = Util.File.readAsString(DB_PATH + "lastId.txt");
+        String idStr = Util.File.readAsString(ID_FILE_PATH);
 
         if(idStr.isEmpty()) {
             return 0;
@@ -99,7 +105,7 @@ public class WiseSayingFileRepository implements WiseSayingRepository {
     }
 
     public void setLastId(int id) {
-        Util.File.write(DB_PATH + "lastId.txt", id);
+        Util.File.write(ID_FILE_PATH, id);
     }
 
 }
