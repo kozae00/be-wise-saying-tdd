@@ -2,7 +2,6 @@ package org.example.app.domain.wiseSaying;
 
 import org.example.app.domain.wiseSaying.repository.RepostioryProvider;
 import org.example.app.domain.wiseSaying.repository.WiseSayingFileRepository;
-import org.example.app.domain.wiseSaying.repository.WiseSayingMemRepository;
 import org.example.app.domain.wiseSaying.repository.WiseSayingRepository;
 
 import java.util.List;
@@ -55,5 +54,9 @@ public class WiseSayingService {
                     }
                 })
                 .toList();
+    }
+
+    public void makeSampleData(int cnt) {
+        wiseSayingRepository.makeSampleData(cnt);
     }
 }
