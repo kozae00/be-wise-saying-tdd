@@ -3,9 +3,11 @@ package org.example.app.global;
 public class AppConfig {
 
     private static String mode;
+    private static String dbMode;
 
     static {
         setDevMode(); // mode를 디폴트 값으로 지정
+        setFileDbMode();
     }
 
     public static void setProdMode() {
@@ -30,6 +32,19 @@ public class AppConfig {
 
     public static boolean isTestMode() {
         return mode.equals("test");
+    }
+
+    public static void setFileDbMode() {
+        dbMode = "file";
+    }
+    public static void setMemDbMode() {
+        dbMode = "mem";
+    }
+    public static boolean isFileDb() {
+        return dbMode.equals("file");
+    }
+    public static boolean isMemDb() {
+        return dbMode.equals("mem");
     }
 
     public static String getDbPath() {

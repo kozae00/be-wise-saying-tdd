@@ -1,5 +1,6 @@
 package org.example.app.domain.wiseSaying;
 
+import org.example.app.domain.wiseSaying.repository.RepostioryProvider;
 import org.example.app.domain.wiseSaying.repository.WiseSayingFileRepository;
 import org.example.app.domain.wiseSaying.repository.WiseSayingMemRepository;
 import org.example.app.domain.wiseSaying.repository.WiseSayingRepository;
@@ -12,7 +13,7 @@ public class WiseSayingService {
     private final WiseSayingRepository wiseSayingRepository;
 
     public WiseSayingService() {
-        wiseSayingRepository = new WiseSayingFileRepository();
+        wiseSayingRepository = RepostioryProvider.porvide();
     }
 
     public WiseSaying write(String content, String author) {
