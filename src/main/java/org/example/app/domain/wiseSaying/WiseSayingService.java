@@ -44,4 +44,16 @@ public class WiseSayingService {
     public void build() {
         wiseSayingRepository.build();
     }
+
+    public List<WiseSaying> search(String ktype, String kw) {
+        return wiseSayingRepository.findAll().stream()
+                .filter(w -> {
+                    if (ktype.equals("content")) {
+                        return w.getContent().contains(kw);
+                    } else {
+                        return w.getAuthor().contains(kw);
+                    }
+                })
+                .toList();
+    }
 }
