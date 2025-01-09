@@ -1,8 +1,6 @@
 package org.example.app.domain.wiseSaying.repository;
 
-import org.example.app.global.AppConfig;
-
-public class RepostioryProvider {
+public class RepositoryProvider {
 
     public static WiseSayingRepository provide() {
 //        if(AppConfig.isFileDb()) {
