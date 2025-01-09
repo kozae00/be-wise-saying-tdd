@@ -70,6 +70,7 @@ public class WiseSayingFileRepository implements WiseSayingRepository {
         int totalItems = searchedWiseSayings.size();
 
         List<WiseSaying> searchedResult = searchedWiseSayings.stream()
+                .sorted(Comparator.comparing(WiseSaying::getId).reversed())
                 .skip((long) (page - 1) * itemsPerPage)
                 .limit(itemsPerPage)
                 .toList();
