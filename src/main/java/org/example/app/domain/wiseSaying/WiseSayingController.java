@@ -10,10 +10,12 @@ public class WiseSayingController {
 
     private final Scanner sc;
     private final WiseSayingService wiseSayingService;
+    private int itemsPerPage;
 
     public WiseSayingController(Scanner sc) {
         this.sc = sc;
         wiseSayingService = new WiseSayingService();
+        itemsPerPage = 5;
     }
 
     public void actionWrite() {
@@ -34,14 +36,14 @@ public class WiseSayingController {
 
         List<WiseSaying> wiseSayingList;
 
-        Page pageContent = wiseSayingService.getAllItems();
+        Page pageContent = wiseSayingService.getAllItems(itemsPerPage);
 
-        if(command.isSearchCommand()){
+        if(command.isSearchCommand()) {
 
             String ktype = command.getParam("keywordType");
             String kw = command.getParam("keyword");
 
-            wiseSayingList = wiseSayingService.search(ktype, kw);
+            wiseSayingList = wiseSayingService.search(ktype, kw, itemsPerPage);
         } else {
             wiseSayingList = pageContent.getWiseSayings();
         }
@@ -57,6 +59,7 @@ public class WiseSayingController {
 
         printPage(page, pageContent.getTotalPages());
     }
+
     private void printPage(int page, int totalPages) {
 
         for(int i = 1; i <= totalPages; i++) {
@@ -65,6 +68,7 @@ public class WiseSayingController {
             } else {
                 System.out.print("%d".formatted(i));
             }
+
             if(i == totalPages) {
                 System.out.println();
                 break;

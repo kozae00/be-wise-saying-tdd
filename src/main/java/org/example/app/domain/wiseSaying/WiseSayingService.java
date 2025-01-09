@@ -12,7 +12,7 @@ public class WiseSayingService {
     private final WiseSayingRepository wiseSayingRepository;
 
     public WiseSayingService() {
-        wiseSayingRepository = RepostioryProvider.provide();
+        wiseSayingRepository = RepositoryProvider.provide();
     }
 
     public WiseSaying write(String content, String author) {
@@ -21,8 +21,8 @@ public class WiseSayingService {
         return wiseSayingRepository.save(wiseSaying);
     }
 
-    public Page getAllItems() {
-        return wiseSayingRepository.findAll();
+    public Page getAllItems(int itemsPerPage) {
+        return wiseSayingRepository.findAll(itemsPerPage);
     }
 
     public boolean delete(int id) {
@@ -44,8 +44,9 @@ public class WiseSayingService {
         wiseSayingRepository.build();
     }
 
-    public List<WiseSaying> search(String ktype, String kw) {
-        return wiseSayingRepository.findAll().getWiseSayings().stream()
+    public List<WiseSaying> search(String ktype, String kw, int itemsPerPage) {
+
+        return wiseSayingRepository.findAll(itemsPerPage).getWiseSayings().stream()
                 .filter(w -> {
                     if (ktype.equals("content")) {
                         return w.getContent().contains(kw);
@@ -54,6 +55,7 @@ public class WiseSayingService {
                     }
                 })
                 .toList();
+
     }
 
     public void makeSampleData(int cnt) {

@@ -14,8 +14,7 @@ public class Page {
     public int totalItems;
     public int itemsPerPage;
 
-    public int getItemsPerPage() {
+    public int getTotalPages() {
         return (int) Math.ceil((double) wiseSayings.size() / itemsPerPage);
     }
-
 }
