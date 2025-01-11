@@ -46,3 +46,11 @@ public void actionPrint() {
             System.out.printf("%d / %s / %s\n", w.getId(), w.getAuthor(), w.getContent());
         });
 ```
+위 예시 코드를 하나 하나 뜯어보며 설명하겠다.
+
+- .forEach(w -> { ... }) : 리스트의 각 요소에 대해 람다식을 실행
+- w - > : 'w'는 리스트의 각 요소를 나타내는 매개변수.
+- { ... } : 각 요소 'w'에 대해 실행될 코드 블록이다.
+- System.out.printf(...) : 각 요소의 정보를 형식화하여 출력한다.
+
+람다식을 활용하게되면 for문 보다 더욱 가독성있는 코드를 생성해낼 수 있다.
