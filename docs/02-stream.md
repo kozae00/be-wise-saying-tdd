@@ -36,3 +36,13 @@ void t5() {
 ```
 예시 코드와 같이 @Test를 사용해 위에서 비어있는 스트림에다가 값을 넣어 확인한다.
 
+## forEach
+
+```java
+public void actionPrint() {
+        System.out.println("번호 / 작가 / 명언");
+        System.out.println("----------------------");
+        wiseSayingList.reversed().forEach(w -> {
+            System.out.printf("%d / %s / %s\n", w.getId(), w.getAuthor(), w.getContent());
+        });
+```
