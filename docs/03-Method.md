@@ -58,7 +58,7 @@ String queryString = cmdBits[1];
 
 ## File
 
-### createFile(), readString()
+### createFile(), readString(), write()
 
 ```java
 public static void createFile(String pathValue) {
@@ -85,4 +85,32 @@ public static void createFile(String pathValue) {
 자바에서 제공하는 파일 method를 활용해 파일 생성 및 읽기 등을 진행해보자. 
 
 예시 코드에서는 create와 read를 통해 파일을 생성 및 읽기를 진행하고 실패했을 때 try와 catch문을 사용하여 디버깅을 수행할 수 있도록 한다.
+
+```java
+public static void wirte(String file, String content) {
+            Path filePath = Paths.get(file);
+            
+            try {
+                Files.writeString(filePath, content, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            } catch (IOException e) {
+                System.out.println("파일 쓰기 실패");
+                e.printStackTrace();
+            }
+            
+        }
+```
+write 또한 예시 코드와 같이 method를 활용해서 파일에 데이터를 입력할 수 있게한다.
+```java
+ @Test
+    @DisplayName("파일 생성. 내용이 없는 빈 파일 생성")
+    void t4() {
+        String file = "test2.txt";
+        String wirteContent = "modify content";
+        Util.File.wirte(file, wirteContent);
+        String content = Util.File.readAsString(file);
+        assertThat(content)
+                .isEqualTo(wirteContent);
+    }
+```
+테스트 코드를 통하여 데이터를 입력했을 때, test2.txt 파일에 "modify content"라는 문자열이 입력되는지 검증한다.
 

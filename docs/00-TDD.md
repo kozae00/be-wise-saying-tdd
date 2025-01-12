@@ -46,3 +46,23 @@ void t3() {
 
 assertThat을 통하여 run() 메서드를 통해 출력되어야 하는 값이 제대로 출력되는지 검증한다.
 
+## @BeforeAll, @AfterALL
+
+```java
+// 테스트 전처리
+    @BeforeAll
+    static void beforeAll() {
+        System.out.println("테스트 실행 전에 한번 실행");
+        Util.File.createDir("test");
+    }
+    // 테스트 종료후에 test.txt를 디렉토리 삭제
+    // 테스트 후처리
+    @AfterAll
+    static void afterAll() {
+        System.out.println("테스트 실행 전에 한번 실행");
+        Util.File.delete("test");
+    }
+```
+예시 코드와 같이 @BeforeAll, @AfterALL을 사용하게되면 테스트코드를 실행했을 때, 테스트 전/후처리를 설정할 수 있게 된다.
+
+이렇게 되면 test1부터 실행되는 것이 아닌, @BeforeAll 우선으로 실행되고 마지막에는 @AfterAll로 테스트가 종료된다.
