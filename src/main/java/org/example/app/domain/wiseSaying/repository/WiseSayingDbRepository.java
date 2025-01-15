@@ -18,10 +18,10 @@ public class WiseSayingDbRepository {
         simpleDb.run("DROP TABLE IF EXISTS wise_saying");
 
         simpleDb.run("""
-                CREATE TABLE article (
+                CREATE TABLE wise_saying (
                     id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
                     content VARCHAR(100) NOT NULL,
-                    author VARCHAR(100),
+                    author VARCHAR(100) NOT NULL
                 )
                 """);
     }
@@ -32,10 +32,11 @@ public class WiseSayingDbRepository {
 
     public WiseSaying save(WiseSaying wiseSaying) {
         Sql sql = simpleDb.genSql();
-        sql.append("INSERT INTO wise_saying ")
-                .append("SET content = ?", wiseSaying.getContent())
+        sql.append("INSERT INTO wise_saying")
+                .append("SET content = ?,", wiseSaying.getContent())
                 .append("author = ?", wiseSaying.getAuthor());
-        sql.insert();
+        long generatedId = sql.insert();
+        wiseSaying.setId((int)generatedId);
 
         return wiseSaying;
     }
@@ -47,6 +48,11 @@ public class WiseSayingDbRepository {
                 .append("FROM wise_saying")
                 .append("WHERE id = ?", id);
         WiseSaying wiseSaying = sql.selectRow(WiseSaying.class);
+
+        if(wiseSaying == null) {
+            return Optional.empty();
+        }
+
         return Optional.of(wiseSaying);
     }
 }
