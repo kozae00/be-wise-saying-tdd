@@ -1,14 +1,19 @@
 package org.example.app.domain.wiseSaying.repository;
 
 import org.example.app.domain.wiseSaying.WiseSaying;
+import org.example.app.global.AppConfig;
+import org.example.app.standard.Util;
 import org.example.app.standard.simpleDb.SimpleDb;
 import org.example.app.standard.simpleDb.Sql;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class WiseSayingDbRepository {
 
+    private static final String DB_PATH = AppConfig.getDbPath() + "/wiseSaying";
+    private static final String BUILD_PATH = DB_PATH + "/build/data.json";
     private final SimpleDb simpleDb;
 
     public WiseSayingDbRepository() {
@@ -70,5 +75,19 @@ public class WiseSayingDbRepository {
                 .append("SELECT * ")
                 .append("FROM wise_saying")
                 .selectRows(WiseSaying.class);
+    }
+
+    public void build() {
+
+        List<Map<String, Object>> mapList = findAll().stream()
+                .map(WiseSaying::toMap)
+                .toList();
+
+        String jsonStr = Util.Json.listToJson(mapList);
+        Util.File.write(BUILD_PATH, jsonStr);
+    }
+
+    public static String getBuildPath() {
+        return DB_PATH;
     }
 }
