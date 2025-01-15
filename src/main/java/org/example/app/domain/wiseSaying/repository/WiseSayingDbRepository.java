@@ -55,4 +55,12 @@ public class WiseSayingDbRepository {
 
         return Optional.of(wiseSaying);
     }
+
+    public boolean deleteById(int id) {
+        int rst = simpleDb.genSql()
+                .append("DELETE FROM wise_saying")
+                .append("WHERE id = ?", id)
+                .delete();
+        return rst > 0;
+    }
 }
