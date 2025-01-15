@@ -1,7 +1,9 @@
 package app.domain.wiseSaying;
 
 import app.standard.TestBot;
+import org.example.app.domain.wiseSaying.repository.RepositoryProvider;
 import org.example.app.domain.wiseSaying.repository.WiseSayingFileRepository;
+import org.example.app.domain.wiseSaying.repository.WiseSayingRepository;
 import org.example.app.global.AppConfig;
 import org.example.app.standard.Util;
 import org.junit.jupiter.api.*;
@@ -13,16 +15,21 @@ public class WiseSayingControllerTest {
     @BeforeAll
     static void beforeAll() {
         AppConfig.setTestMode();
+
+        WiseSayingRepository repo = RepositoryProvider.provide();
+        repo.createTable();
     }
 
     @BeforeEach
     void before() {
-        Util.File.deleteForce(AppConfig.getDbPath());
+
+        WiseSayingRepository repo = RepositoryProvider.provide();
+        repo.truncateTable();
     }
 
     @AfterEach
     void after() {
-        Util.File.deleteForce(AppConfig.getDbPath());
+
     }
 
     @Test
@@ -360,6 +367,7 @@ public class WiseSayingControllerTest {
     @Test
     @DisplayName("검색 UI 출력")
     void t22() {
+
         String out = TestBot.run("""
                 등록
                 현재를 사랑하라.
@@ -369,8 +377,28 @@ public class WiseSayingControllerTest {
                 작자미상
                 목록?keywordType=content&keyword=과거
                 """);
+
         assertThat(out)
                 .contains("검색타입 : content")
                 .contains("검색어 : 과거");
+    }
+
+    @Test
+    @DisplayName("작가로 검색")
+    void t23() {
+
+        String out = TestBot.run("""
+                등록
+                현재를 사랑하라.
+                홍길동
+                등록
+                과거에 집착하지 마라.
+                이순신
+                목록?keywordType=author&keyword=홍
+                """);
+
+        assertThat(out)
+                .contains("1 / 홍길동 / 현재를 사랑하라.")
+                .doesNotContain("2 / 이순신 / 과거에 집착하지 마라.");
     }
 }
